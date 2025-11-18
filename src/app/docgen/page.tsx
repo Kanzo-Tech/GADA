@@ -1,0 +1,93 @@
+"use client";
+
+import { useState } from 'react';
+import { InputField, MultiSelectField, MultiSelectOption } from '../../components/form-fields';
+import '../styles/doc-gen.css'
+import { useRouter } from 'next/navigation';
+import { version } from 'os';
+
+const docTypes: MultiSelectOption[] = [
+    { label: "Data space rulebook", value: "dataspace-rb" },
+    { label: "Membership agreement", value: "membership-agreement" },
+    { label: "General terms and conditions", value: "general-tc" },
+]
+
+const outputFormats: MultiSelectOption[] = [
+    { label: "PDF", value: "pdf" },
+    { label: "Word", value: "word" },
+    { label: "JSON-LD", value: "jsonld" },
+    { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf" }
+]
+
+const regulationsAlligned: MultiSelectOption[] = [
+    { label: "GDPR", value: "gdpr" },
+    { label: "Data act", value: "data-act" },
+    { label: "Data governance act", value: "data-governance-act" },
+    { label: "Others...", value: "others" },
+]
+
+function Form() {
+    const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
+    const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
+    const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
+    const [versionLabel, setVersionLabel] = useState<string>();
+
+    const router = useRouter();
+    const handleSubmit = () => {
+        const params = new URLSearchParams();
+
+        const appendArray = (key: string, values: string[]) => {
+            values.forEach((v) => params.append(key, v));
+        }
+
+        appendArray("docTypes", selectedDocTypes)
+        appendArray("outputFormats", selectedOutputFormats)
+        appendArray("allignedRegulations", selectedAllignedRegulations)
+
+        versionLabel ? params.set("versionLabel", versionLabel) : params.set("versionLabel", "");
+
+        router.push(`/summary?${params.toString()}`);
+    }
+
+    return (
+        <div>
+            <section>
+                <div className="docgen-form m-4 p-4 gap-4 border border-slate-800 rounded-2xl">
+                    <MultiSelectField
+                        label='Documents to be generated'
+                        options={docTypes}
+                        value={selectedDocTypes}
+                        onChange={setSelectedDocTypes}
+                    />
+                    <MultiSelectField
+                        label='Output format'
+                        options={outputFormats}
+                        value={selectedOutputFormats}
+                        onChange={setSelectedOutputFormats}
+                    />
+                    <MultiSelectField
+                        label='Allignment with regulations'
+                        options={regulationsAlligned}
+                        value={selectedAllignedRegulations}
+                        onChange={setAllignedRegulations}
+                    />
+                    <InputField
+                        title='Version label'
+                        placeholder='v1.0'
+                        value={versionLabel}
+                        onChange={(version_label) => setVersionLabel(version_label.toString)}
+                    />
+                </div>
+            </section>
+            <button
+                type="button"
+                onClick={handleSubmit}
+                className="ml-4 px-4 py-2 rounded-md border text-sm font-medium"
+            >
+                Submit
+            </button>
+        </div>
+    );
+}
+
+export default Form;
