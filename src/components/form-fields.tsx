@@ -23,7 +23,7 @@ interface MultiSelectProps<T = string> {
     disabled?: boolean;
 }
 
-export const InputField = ({ title, placeholder }: InputFieldProps) => {
+const InputField = ({ title, placeholder }: InputFieldProps) => {
     return (
         <div>
             <h1 className="text-xl font-medium"> {title} </h1>
@@ -32,7 +32,7 @@ export const InputField = ({ title, placeholder }: InputFieldProps) => {
     );
 }
 
-export function MultiSelectField<T = string>({
+function MultiSelectField<T = string>({
     label,
     options,
     value,
@@ -76,4 +76,9 @@ export function MultiSelectField<T = string>({
             }
         </div>
     );
+}
+
+export {
+    InputField,
+    MultiSelectField
 }
