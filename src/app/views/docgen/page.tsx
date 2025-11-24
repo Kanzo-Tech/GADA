@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { InputField, MultiSelectField, MultiSelectOption } from '../../components/form-fields';
-import '../styles/doc-gen.css'
+import { InputField, MultiSelectField, MultiSelectOption } from '../../../components/form-fields';
+import '../../styles/doc-gen.css'
 import { useRouter } from 'next/navigation';
 import { version } from 'os';
 
@@ -26,7 +26,7 @@ const regulationsAlligned: MultiSelectOption[] = [
     { label: "Others...", value: "others" },
 ]
 
-function Form() {
+function DocgenForm() {
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
@@ -46,7 +46,7 @@ function Form() {
 
         versionLabel ? params.set("versionLabel", versionLabel) : params.set("versionLabel", "");
 
-        router.push(`/summary?${params.toString()}`);
+        router.push(`/views/summary?${params.toString()}`);
     }
 
     return (
@@ -90,4 +90,4 @@ function Form() {
     );
 }
 
-export default Form;
+export default DocgenForm;

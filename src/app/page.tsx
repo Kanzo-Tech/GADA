@@ -1,4 +1,4 @@
-import Form from "./docgen/page";
+import Form from "./views/docgen/page";
 import Login from "./login/page"
 
 export default function Home() {
