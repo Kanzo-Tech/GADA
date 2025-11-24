@@ -26,8 +26,17 @@ interface MultiSelectProps<T = string> {
 const InputField = ({ title, placeholder }: InputFieldProps) => {
     return (
         <div>
-            <h1 className="text-xl font-medium"> {title} </h1>
-            <input className="border border-slate-800 rounded" type="text" placeholder={placeholder} />
+            <h1 className="block mb-2.5 text-sm font-medium text-heading"> {title} </h1>
+            <input className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-2.5 py-2 shadow-xs placeholder:text-body" type="text" placeholder={placeholder} />
+        </div>
+    );
+}
+
+const NumericField = ({ title, placeholder }: InputFieldProps<BigInt>) => {
+    return (
+        <div>
+            <h1 className="block mb-2.5 text-sm font-medium text-heading"> {title} </h1>
+            <input className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full px-2.5 py-2 shadow-xs placeholder:text-body" type="number" placeholder={placeholder} />
         </div>
     );
 }
@@ -80,5 +89,6 @@ function MultiSelectField<T = string>({
 
 export {
     InputField,
-    MultiSelectField
+    MultiSelectField,
+    NumericField
 }

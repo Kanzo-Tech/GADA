@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.context-form {
+    @apply max-w-sm mx-auto space-y-4
+}

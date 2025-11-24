@@ -18,7 +18,7 @@ export default function SummaryPage() {
     const versionLabel = searchParams.get("versionLabel");
 
     const handleClick = () => {
-        router.push("/docgen")
+        router.push("/views/docgen")
     }
 
     return (

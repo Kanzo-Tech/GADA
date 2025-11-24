@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import './styles/login-layout.css';
+import '../../styles/login-layout.css';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 
 const Login: React.FC = () => {
@@ -12,11 +12,11 @@ const Login: React.FC = () => {
                         <Logo />
                     </div>
                     {
-                    //<Screenshot />
+                        //<Screenshot />
                     }
                 </div>
                 <div className='w-1/2 bg-white flex flex-col justify-center items-center px-16'>
-                    
+
                     <div className="max-w-md text-center">
                         <h2 className="text-4xl font-bold text-slate-900 mb-4">
                             Welcome to Gada
@@ -62,11 +62,11 @@ const Logo: React.FC = () => {
     return (
         <div className="flex items-center gap-3">
             {//DESCOMENTAR CUANDO SE TENGA EL LOGO Y SUSTITUIR EL SRC 
-            //<img
+                //<img
                 //src="file.svg"
                 //alt="GADA logo placeholder"
                 //className='login-logo h-10 w-10'
-            ///>
+                ///>
             }
             <div className="h-10 w-10 bg-slate-900 rounded-lg shadow-lg flex justify-center items-center">
 
