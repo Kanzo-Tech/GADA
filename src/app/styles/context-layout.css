@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.context-div {
+    @apply max-w-screen mb-2 space-y-4 border-b-2
+}
+
+.context-form {
+    @apply max-w-screen mb-4 mr-4 space-y-4
+}
