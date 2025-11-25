@@ -1,9 +1,9 @@
-import Form from "./views/docgen/page";
-import Login from "./login/page"
+import Form from "./views/export/page";
+import Login from "./views/login/page"
 
 export default function Home() {
   return (
-    // <Login />
-    <Form />
+    <Login />
+    //<Form />
   );
 }
