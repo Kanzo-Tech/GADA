@@ -1,25 +1,25 @@
 "use client";
 
 import { useState } from 'react';
-import { InputField, MultiSelectField, MultiSelectOption } from '../../../components/form-fields';
+import { InputField, MultiSelectField, SelectOption } from '../../../components/form-fields';
 import '../../styles/doc-gen.css'
 import { useRouter } from 'next/navigation';
 import { version } from 'os';
 
-const docTypes: MultiSelectOption[] = [
+const docTypes: SelectOption[] = [
     { label: "Data space rulebook", value: "dataspace-rb" },
     { label: "Membership agreement", value: "membership-agreement" },
     { label: "General terms and conditions", value: "general-tc" },
 ]
 
-const outputFormats: MultiSelectOption[] = [
+const outputFormats: SelectOption[] = [
     { label: "PDF", value: "pdf" },
     { label: "Word", value: "word" },
     { label: "JSON-LD", value: "jsonld" },
     { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf" }
 ]
 
-const regulationsAlligned: MultiSelectOption[] = [
+const regulationsAlligned: SelectOption[] = [
     { label: "GDPR", value: "gdpr" },
     { label: "Data act", value: "data-act" },
     { label: "Data governance act", value: "data-governance-act" },
