@@ -7,3 +7,31 @@
 .login-logo {
     @apply rounded-2xl shadow-2xl p-2 m-5 border border-slate-800;
 }
+
+.btn-supabase {
+    background-color: #3ECF8E;
+    color: #1f1f1f; 
+    border: none;
+    padding: 12px 24px; 
+    font-size: 16px;
+    font-weight: 600; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-supabase:hover{
+    background-color: #34b27b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-supabase:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
