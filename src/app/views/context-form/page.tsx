@@ -3,6 +3,7 @@
 import { InputField, SelectOption, NumericField, SelectField, TextAreaField } from "@/components/form-fields";
 import React, { useState } from "react";
 import '../../styles/context-layout.css';
+import { navigation } from "@/components/redirecting";
 
 
 const sectorTypeOptions: SelectOption[] = [
@@ -109,6 +110,11 @@ function ContextForm() {
                 }))
         }
     }
+    const { navigateTo } = navigation();
+
+    const handleSubmit = () => {
+        navigateTo('/export');
+    }
 
 
     return (
@@ -163,17 +169,20 @@ function ContextForm() {
                             <InputField
                                 title="Name"
                                 placeholder="Data space name..."
+                                value={dataspace.name}
                                 onChange={handleDataSpaceChange("name")}
                             />
                             <SelectField
-                                label="Scope"
-                                placeholder="Select a scope"
+                                label="Sector"
+                                placeholder="Select a sector"
+                                value={dataspace.sector}
                                 options={sectorTypeOptions}
                                 onChange={(e) => handleDataSpaceChange("scopeAndPurpose")(e)}
                             />
                             <SelectField
                                 label="Geographic scope"
                                 placeholder="Select a scope"
+                                value={dataspace.geographicScope}
                                 options={geographicScopeOptions}
                                 onChange={(e) => handleDataSpaceChange("geographicScope")(e)}
                             />
@@ -185,11 +194,13 @@ function ContextForm() {
                             <InputField
                                 title="Participant type"
                                 placeholder="Participant type..."
+                                value={dataspace.participantType}
                                 onChange={handleDataSpaceChange("participantType")}
                             />
                             <TextAreaField
                                 title="Scope and purpose"
                                 placeholder="Scope and purpose..."
+                                value={dataspace.scopeAndPurpose}
                                 onChange={handleDataSpaceChange("scopeAndPurpose")}
                             />
                         </div>
@@ -228,6 +239,13 @@ function ContextForm() {
                         />
 
                     </div>
+                    <button
+                        type="button"
+                        onClick={handleSubmit}
+                        className="ml-4 px-4 py-2 rounded-md border text-sm font-medium"
+                    >
+                        Submit
+                    </button>
                 </div>
             </div>
         </div>
