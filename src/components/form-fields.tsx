@@ -126,7 +126,11 @@ function SelectField<T = string>({
 
                     }}
                 >
-                    {placeholder && <option selected>{placeholder}</option>}
+                    {placeholder && (
+                        <option value="" disabled>
+                            {placeholder}
+                        </option>
+                    )}
                     {options.map((opt) => (
                         <option key={String(opt.value)} value={String(opt.value)}>
                             {opt.label}
