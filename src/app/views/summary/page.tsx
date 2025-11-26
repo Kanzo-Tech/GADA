@@ -1,5 +1,6 @@
 "use client";
 
+import { navigation } from "@/components/redirecting";
 import { useRouter, useSearchParams } from "next/navigation";
 import { version } from "os";
 import * as React from "react";
@@ -17,8 +18,10 @@ export default function SummaryPage() {
 
     const versionLabel = searchParams.get("versionLabel");
 
+    const { navigateTo } = navigation();
+
     const handleClick = () => {
-        router.push("/export")
+        navigateTo('/export');
     }
 
     return (
