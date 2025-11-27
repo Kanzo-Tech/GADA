@@ -1,9 +1,15 @@
 "use client";
 
 import { InputField, SelectOption, NumericField, SelectField, TextAreaField } from "@/components/form-fields";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import '../../styles/context-layout.css';
 import { navigation } from "@/components/redirecting";
+import {
+    type DataSpace,
+    type ManagingEntity,
+    type TechnicalAuthority
+} from "@/components/i-form-data";
+import { mergeContextDraft, loadContextDraft } from "@/components/local-storage";
 
 
 const sectorTypeOptions: SelectOption[] = [
@@ -15,30 +21,6 @@ const geographicScopeOptions: SelectOption[] = [
     { label: "example1", value: "example1" },
     { label: "example2", value: "example2" }
 ]
-
-type ManagingEntity = {
-    name: string,
-    taxId: string,
-    address: string,
-    legalRepresentative: string
-}
-
-type DataSpace = {
-    name: string,
-    sector: string,
-    geographicScope: string,
-    participantType: string,
-    numberOfParticipants?: number,
-    scopeAndPurpose: string
-}
-
-type TechnicalAuthority = {
-    legalName: string,
-    taxId: string,
-    governanceRole: string,
-    geographicScope: string,
-    contact: string
-}
 
 function ContextForm() {
 
@@ -67,6 +49,17 @@ function ContextForm() {
     })
 
     const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        const draft = loadContextDraft();
+        if (!draft) return;
+
+        if (draft.managingEntity) setManagingEntity(draft.managingEntity);
+        if (draft.dataSpace) setDataSpace(draft.dataSpace);
+        if (draft.technicalAuthority) setTechnicalAuthority(draft.technicalAuthority);
+    }, [])
+
+    const { navigateTo } = navigation();
 
     const handleManagingChange =
         (field: keyof ManagingEntity) =>
@@ -110,9 +103,14 @@ function ContextForm() {
                 }))
         }
     }
-    const { navigateTo } = navigation();
 
     const handleSubmit = () => {
+        mergeContextDraft({
+            managingEntity,
+            dataSpace: dataspace,
+            technicalAuthority
+        })
+
         navigateTo('/export');
     }
 
@@ -132,21 +130,25 @@ function ContextForm() {
                             <InputField
                                 title="Name"
                                 placeholder="Name..."
+                                value={managingEntity.name}
                                 onChange={handleManagingChange("name")}
                             />
                             <InputField
                                 title="Tax ID"
                                 placeholder="Tax id..."
+                                value={managingEntity.taxId}
                                 onChange={handleManagingChange("taxId")}
                             />
                             <InputField
                                 title="Address"
                                 placeholder="Address..."
+                                value={managingEntity.address}
                                 onChange={handleManagingChange("address")}
                             />
                             <InputField
                                 title="Legal representative"
                                 placeholder="Legal representative..."
+                                value={managingEntity.legalRepresentative}
                                 onChange={handleManagingChange("legalRepresentative")}
                             />
                         </div>
@@ -177,7 +179,7 @@ function ContextForm() {
                                 placeholder="Select a sector"
                                 value={dataspace.sector}
                                 options={sectorTypeOptions}
-                                onChange={(e) => handleDataSpaceChange("scopeAndPurpose")(e)}
+                                onChange={(e) => handleDataSpaceChange("sector")(e)}
                             />
                             <SelectField
                                 label="Geographic scope"
@@ -224,16 +226,19 @@ function ContextForm() {
                         <InputField
                             title="Governance role"
                             placeholder="Role..."
+                            value={technicalAuthority.governanceRole}
                             onChange={handleTechnicalChange("governanceRole")}
                         />
                         <InputField
                             title="Contact information"
                             placeholder="contact@information.com"
+                            value={technicalAuthority.contact}
                             onChange={handleTechnicalChange("contact")}
                         />
                         <SelectField
                             label="Geographic scope"
                             placeholder="Select a scope"
+                            value={technicalAuthority.geographicScope}
                             options={geographicScopeOptions}
                             onChange={(e) => handleTechnicalChange("geographicScope")(e)}
                         />

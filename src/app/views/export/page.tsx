@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { InputField, MultiSelectField, SelectOption } from '../../../components/form-fields';
 import '../../styles/doc-gen.css'
-import { useRouter } from 'next/navigation';
-import { version } from 'os';
+import { navigation } from '@/components/redirecting';
+import { addGeneratedConfigFromDraft, clearContextDraft, loadContextDraft, mergeContextDraft } from '@/components/local-storage';
 
 const docTypes: SelectOption[] = [
     { label: "Data space rulebook", value: "dataspace-rb" },
@@ -26,29 +26,64 @@ const regulationsAlligned: SelectOption[] = [
     { label: "Others...", value: "others" },
 ]
 
+
 function DocgenForm() {
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
-    const [versionLabel, setVersionLabel] = useState<string>();
+    const [versionLabel, setVersionLabel] = useState<string>("");
 
-    const router = useRouter();
+    const { navigateTo } = navigation();
+
     const handleSubmit = () => {
-        const params = new URLSearchParams();
+        // merge data into draft
+        const draft = mergeContextDraft({
+            version: versionLabel,
+            date: new Date(),
+            docTypes: selectedDocTypes,
+            outputFormats: selectedOutputFormats,
+            alignedRegulations: selectedAllignedRegulations,
+        })
 
-        const appendArray = (key: string, values: string[]) => {
-            values.forEach((v) => params.append(key, v));
+        // build a GeneratedConfig and store it
+        const generated = addGeneratedConfigFromDraft(draft);
+        clearContextDraft();
+
+        if (!generated) {
+            navigateTo('/context-form')
+            return;
         }
 
-        appendArray("docTypes", selectedDocTypes)
-        appendArray("outputFormats", selectedOutputFormats)
-        appendArray("allignedRegulations", selectedAllignedRegulations)
-
-        versionLabel ? params.set("versionLabel", versionLabel) : params.set("versionLabel", "");
-
-        router.push(`/views/summary?${params.toString()}`);
+        // go to summary list
+        navigateTo('/summary')
     }
 
+    /**
+     * Handle submit previo a localStorage
+    */
+    // const handleSubmit = () => {
+    //     const params = new URLSearchParams();
+
+    //     const appendArray = (key: string, values: string[]) => {
+    //         values.forEach((v) => params.append(key, v));
+    //     }
+
+    //     appendArray("docTypes", selectedDocTypes)
+    //     appendArray("outputFormats", selectedOutputFormats)
+    //     appendArray("allignedRegulations", selectedAllignedRegulations)
+
+    //     params.set("versionLabel", versionLabel ?? "")
+
+    //     mergeContextDraft({
+    //         version: versionLabel,
+    //         date: new Date()
+    //     });
+
+    //     navigateTo(`/summary=${params.toString()}`);
+    // }
+
+
+    loadContextDraft();
     return (
         <div>
             <section>
@@ -75,7 +110,7 @@ function DocgenForm() {
                         title='Version label'
                         placeholder='v1.0'
                         value={versionLabel}
-                        onChange={(version_label) => setVersionLabel(version_label.toString)}
+                        onChange={(version_label) => setVersionLabel(version_label)}
                     />
                 </div>
             </section>
@@ -89,5 +124,6 @@ function DocgenForm() {
         </div>
     );
 }
+
 
 export default DocgenForm;

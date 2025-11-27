@@ -3,11 +3,13 @@ import React from 'react';
 import '../../styles/login-layout.css';
 import { navigation } from '@/components/redirecting';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
+import { clearContextDraft } from '@/components/local-storage';
 
 const Login: React.FC = () => {
     //BORRAR LA SIGUIENTE FUNCIÓN CUANDO SE IMPLEMENTE EL LOGIN: - implementada V0.1
     const { navigateTo } = navigation();
     const formRedirect = () => {
+        clearContextDraft();
         navigateTo('/context-form');
     };
     return (
