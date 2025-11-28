@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { GeneratedConfig, loadGeneratedConfigs, saveContextDraft } from "@/components/local-storage";
+import { GeneratedConfig, loadGeneratedConfigs, removeGeneratedConfig, saveContextDraft } from "@/components/local-storage";
+import { navigation } from "@/components/redirecting";
 
 function SummaryView() {
     const [configs, setConfigs] = useState<GeneratedConfig[]>([]);
-    const router = useRouter();
+    const { navigateTo } = navigation();
 
     useEffect(() => {
         setConfigs(loadGeneratedConfigs());
     }, []);
+
 
     const handleEdit = (cfg: GeneratedConfig) => {
         // push this config back into the draft so the wizard is prefilled
@@ -26,8 +27,13 @@ function SummaryView() {
         });
 
         // send user back to first step to edit
-        router.push("/views/context-form"); // adjust route name
+        navigateTo('/context-form');
     };
+
+    const handleRemove = (cfg: GeneratedConfig) => {
+        removeGeneratedConfig(cfg.id);
+        setConfigs(loadGeneratedConfigs());
+    }
 
     if (configs.length === 0) {
         return (
@@ -38,13 +44,14 @@ function SummaryView() {
                 </p>
                 <button
                     className="px-3 py-2 text-sm border rounded"
-                    onClick={() => router.push("/export")} // your DocgenForm route
+                    onClick={() => navigateTo('/context-form')} // your DocgenForm route
                 >
                     Create first document
                 </button>
             </div>
         );
     }
+
 
     return (
         <div className="p-6 space-y-4">
@@ -59,7 +66,8 @@ function SummaryView() {
                         <div className="flex justify-between items-center">
                             <div>
                                 <div className="text-sm font-semibold">
-                                    {cfg.dataSpace.name || "Unnamed data space"}
+                                    {cfg.docTypes + " "}
+                                    {cfg.dataSpace.name || "[Unnamed data space]"}
                                 </div>
                                 <div className="text-xs text-gray-500">
                                     Version {cfg.version} ·{" "}
@@ -67,15 +75,26 @@ function SummaryView() {
                                         year: "numeric",
                                         month: "short",
                                         day: "numeric",
+                                        hour: "numeric",
+                                        minute: "numeric",
+                                        second: "numeric"
                                     })}
                                 </div>
                             </div>
-                            <button
-                                className="px-3 py-1 text-xs border rounded"
-                                onClick={() => handleEdit(cfg)}
-                            >
-                                Edit
-                            </button>
+                            <div>
+                                <button
+                                    className="px-3 py-1 text-xs border rounded mr-2"
+                                    onClick={() => handleEdit(cfg)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => handleRemove(cfg)}
+                                    className="text-xs px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
 
                         <div className="text-xs text-gray-700">

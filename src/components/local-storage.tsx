@@ -143,3 +143,11 @@ export function addGeneratedConfigFromDraft(
     return cfg;
 
 }
+
+export function removeGeneratedConfig(
+    id: string
+) {
+    const all = loadGeneratedConfigs();
+    const filtered = all.filter((c) => c.id !== id);
+    saveGeneratedConfigs(filtered);
+}
