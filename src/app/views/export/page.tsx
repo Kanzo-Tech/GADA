@@ -30,7 +30,7 @@ function DocgenForm() {
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
-    const [versionLabel, setVersionLabel] = useState<string>();
+
 
     const router = useRouter();
     const handleSubmit = () => {
@@ -43,8 +43,6 @@ function DocgenForm() {
         appendArray("docTypes", selectedDocTypes)
         appendArray("outputFormats", selectedOutputFormats)
         appendArray("allignedRegulations", selectedAllignedRegulations)
-
-        versionLabel ? params.set("versionLabel", versionLabel) : params.set("versionLabel", "");
 
         router.push(`/views/summary?${params.toString()}`);
     }
@@ -70,12 +68,6 @@ function DocgenForm() {
                         options={regulationsAlligned}
                         value={selectedAllignedRegulations}
                         onChange={setAllignedRegulations}
-                    />
-                    <InputField
-                        title='Version label'
-                        placeholder='v1.0'
-                        value={versionLabel}
-                        onChange={(version_label) => setVersionLabel(version_label.toString)}
                     />
                 </div>
             </section>
