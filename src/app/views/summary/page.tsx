@@ -14,7 +14,6 @@ function SummaryView() {
 
 
     const handleEdit = (cfg: GeneratedConfig) => {
-        // push this config back into the draft so the wizard is prefilled
         saveContextDraft({
             managingEntity: cfg.managingEntity,
             dataSpace: cfg.dataSpace,
@@ -26,7 +25,6 @@ function SummaryView() {
             alignedRegulations: cfg.allignedRegulations,
         });
 
-        // send user back to first step to edit
         navigateTo('/context-form');
     };
 
@@ -44,7 +42,7 @@ function SummaryView() {
                 </p>
                 <button
                     className="px-3 py-2 text-sm border rounded"
-                    onClick={() => navigateTo('/context-form')} // your DocgenForm route
+                    onClick={() => navigateTo('/context-form')}
                 >
                     Create first document
                 </button>
@@ -89,8 +87,8 @@ function SummaryView() {
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleRemove(cfg)}
                                     className="text-xs px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
+                                    onClick={() => handleRemove(cfg)}
                                 >
                                     Delete
                                 </button>
