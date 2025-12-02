@@ -11,34 +11,9 @@ import {
     type TechnicalAuthority
 } from "@/components/i-form-data";
 import { mergeContextDraft, loadContextDraft, ContextDraft, addGeneratedConfigFromDraft, saveContextDraft } from "@/components/local-storage";
+import { Amarante } from "next/font/google";
 
 function ContextForm() {
-    // const [formData, setFormData] = useState<IFormData>({
-    //     managingEntity: {
-    //         name: '',
-    //         taxId: '',
-    //         address: '',
-    //         legalRepresentative: ''
-    //     },
-    //     dataSpace: {
-    //         name: '',
-    //         sector: '',
-    //         geographicScope: '',
-    //         scopeAndPurpose: ''
-    //     },
-    //     technicalAuthority: {
-    //         legalName: '',
-    //         taxId: '',
-    //         governanceRole: '',
-    //         geographicScope: '',
-    //         contact: ''
-    //     },
-    //     numberOfParticipants: undefined,
-    //     participantType: '',
-    //     version: '',
-    //     date: ''
-    // });
-
 
     const [managingEntity, setManagingEntity] = useState<ManagingEntity>({
         name: "",
@@ -78,44 +53,19 @@ function ContextForm() {
     const { navigateTo } = navigation();
 
     const handleManagingChange =
-        (field: keyof ManagingEntity) =>
-            (value: string) => {
-                setManagingEntity((prev) => ({ ...prev, [field]: value }))
-            };
+        (field: keyof ManagingEntity, value: string) => {
+            setManagingEntity((prev) => ({ ...prev, [field]: value }))
+        };
 
     const handleDataSpaceChange =
-        (field: keyof DataSpace) =>
-            (value: string) => {
-                setDataSpace((prev) => ({ ...prev, [field]: value }))
-            }
-
-
-
-    // const handleDataSpaceChange = (field: string, newValue: any) => {
-    //     setFormData({
-    //         ...formData,
-    //         dataSpace: {
-    //             ...dataSpace,
-    //             [field]: newValue
-    //         }
-    //     });
-    // }
+        (field: keyof DataSpace, value: string) => {
+            setDataSpace((prev) => ({ ...prev, [field]: value }))
+        }
 
     const handleTechnicalChange =
-        (field: keyof TechnicalAuthority) =>
-            (value: string) => {
-                setTechnicalAuthority((prev) => ({ ...prev, [field]: value }));
-            };
-
-    // const handleTechnicalChange = (field: string, newValue: any) => {
-    //     setFormData({
-    //         ...formData,
-    //         technicalAuthority: {
-    //             ...technicalAuthority,
-    //             [field]: newValue
-    //         }
-    //     });
-    // };
+        (field: keyof TechnicalAuthority, value: string) => {
+            setTechnicalAuthority((prev) => ({ ...prev, [field]: value }));
+        };
 
     const [errorTaxId, setErrorTaxId] = useState({ managingEntityTaxId: "", technicalAuthorityTaxId: "" });
     const validateTaxId = (formValue: string, type: 'managingEntityTaxId' | 'technicalAuthorityTaxId') => {
@@ -204,24 +154,13 @@ function ContextForm() {
                 ...prev,
                 technicalAuthorityTaxId: ''
             }))
-            // setFormData(() => ({
-            //     ...formData,
-            //     technicalAuthority: {
-            //         ...technicalAuthority,
-            //         legalName: managingEntity.name,
-            //         taxId: managingEntity.taxId
-            //     }
-            // }));
+            setTechnicalAuthority((prev) => ({
+                ...prev,
+                ['legalName']: managingEntity.name,
+                ['taxId']: managingEntity.taxId
+            }))
         } else {
             setChecked(false);
-            // setFormData(() => ({
-            //     ...formData,
-            //     technicalAuthority: {
-            //         ...technicalAuthority,
-            //         legalName: '',
-            //         taxId: ''
-            //     }
-            // }));
         }
     }
 
@@ -320,8 +259,8 @@ function ContextForm() {
                         <InputField
                             type="text"
                             label="Name"
-                            minLength={3}
                             value={managingEntity.name}
+                            minLength={3}
                             placeholder="Juan Teodomiro López Navarrete"
                             onBlur={() => {
                                 setManagingEntity((prev) => ({
@@ -330,15 +269,19 @@ function ContextForm() {
                                 }))
                                 validateMandatoryField(managingEntity.name, 'managingEntityName');
                             }}
-                            onChange={() => {
-                                if (errorBlankMandatoryField.managingEntityName) setErrorMandatoryField(prev => ({ ...prev, managingEntityName: "" }));
-                                handleManagingChange("name");
+                            onChange={(newValue) => {
+                                if (errorBlankMandatoryField.managingEntityName) {
+                                    setErrorMandatoryField(prev => ({ ...prev, managingEntityName: "" }))
+                                };
+                                handleManagingChange("name", newValue);
                             }}
+
                             error={errorBlankMandatoryField.managingEntityName}
                         />
                         <InputField
                             type="text"
                             label="Tax id"
+                            value={managingEntity.taxId}
                             maxLength={9}
                             placeholder="X1234567X"
                             onBlur={() => {
@@ -348,16 +291,17 @@ function ContextForm() {
                                 }))
                                 validateTaxId(managingEntity.taxId, 'managingEntityTaxId')
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorTaxId.managingEntityTaxId) setErrorTaxId(prev => ({ ...prev, managingEntityTaxId: "" }));
 
-                                handleManagingChange("taxId");
+                                handleManagingChange("taxId", newValue);
                             }}
                             error={errorTaxId.managingEntityTaxId}
                         />
                         <InputField
                             type="text"
                             label="Address"
+                            value={managingEntity.address}
                             minLength={7}
                             placeholder="Avenida de Cervantes, 2, 29071 Malaga"
                             onBlur={() => {
@@ -365,19 +309,19 @@ function ContextForm() {
                                     ...prev,
                                     ['address']: managingEntity.address.trim()
                                 }))
-                                handleManagingChange("address");
                                 validateMandatoryField(managingEntity.address, 'managingEntityAddress');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorBlankMandatoryField.managingEntityAddress) setErrorMandatoryField(prev => ({ ...prev, managingEntityAddress: "" }));
 
-                                handleManagingChange("address");
+                                handleManagingChange("address", newValue);
                             }}
                             error={errorBlankMandatoryField.managingEntityAddress}
                         />
                         <InputField
                             type="text"
                             label="Legal representative name"
+                            value={managingEntity.legalRepresentative}
                             minLength={3}
                             placeholder="Tony Chopper..."
                             onBlur={() => {
@@ -385,13 +329,12 @@ function ContextForm() {
                                     ...prev,
                                     ['legalRepresentative']: managingEntity.legalRepresentative.trim()
                                 }))
-                                handleManagingChange("legalRepresentative");
                                 validateMandatoryField(managingEntity.legalRepresentative, 'managingEntityLegalRepresentative');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorBlankMandatoryField.managingEntityLegalRepresentative) setErrorMandatoryField(prev => ({ ...prev, managingEntityLegalRepresentative: "" }));
 
-                                handleManagingChange("legalRepresentative");
+                                handleManagingChange("legalRepresentative", newValue);
                             }}
                             error={errorBlankMandatoryField.managingEntityLegalRepresentative}
                         />
@@ -421,38 +364,37 @@ function ContextForm() {
                         <InputField
                             type="text"
                             label="Name"
+                            value={dataSpace.name}
                             placeholder="Malaga University..."
                             onBlur={() => {
                                 setDataSpace((prev) => ({
                                     ...prev,
                                     ['name']: dataSpace.name.trim()
                                 }))
-                                handleDataSpaceChange("name");
                                 validateMandatoryField(dataSpace.name, 'dataSpaceName');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorBlankMandatoryField.dataSpaceName) setErrorMandatoryField(prev => ({ ...prev, dataSpaceName: "" }));
-
-                                handleDataSpaceChange("name");
+                                handleDataSpaceChange("name", newValue);
                             }}
                             error={errorBlankMandatoryField.dataSpaceName}
                         />
                         <InputField
                             type="text"
                             label="Sector"
+                            value={dataSpace.sector}
                             placeholder="Education..."
                             onBlur={() => {
                                 setDataSpace((prev) => ({
                                     ...prev,
                                     ['sector']: dataSpace.sector.trim()
                                 }))
-                                handleDataSpaceChange("sector");
                                 validateSimpleTextMandatoryField(dataSpace.sector, 'dataSpaceSector');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorSimpleTextMandatory.dataSpaceSector) setErrorSimpleTextMandatory(prev => ({ ...prev, dataSpaceSector: "" }));
 
-                                handleDataSpaceChange("sector");
+                                handleDataSpaceChange("sector", newValue);
                             }}
                             error={errorSimpleTextMandatory.dataSpaceSector}
                         />
@@ -460,38 +402,38 @@ function ContextForm() {
                             type="text"
                             minLength={10}
                             label="Scope and purpose"
+                            value={dataSpace.scopeAndPurpose}
                             placeholder="Educational usage for Malaga University..."
                             onBlur={() => {
                                 setDataSpace((prev) => ({
                                     ...prev,
                                     ['scopeAndPurpose']: dataSpace.scopeAndPurpose.trim()
                                 }))
-                                handleDataSpaceChange("scopeAndPurpose");
                                 validateMandatoryField(dataSpace.scopeAndPurpose, 'dataSpaceScopeAndPurpose');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorBlankMandatoryField.dataSpaceScopeAndPurpose) setErrorMandatoryField(prev => ({ ...prev, dataSpaceScopeAndPurpose: "" }));
 
-                                handleDataSpaceChange("scopeAndPurpose");
+                                handleDataSpaceChange("scopeAndPurpose", newValue);
                             }}
                             error={errorBlankMandatoryField.dataSpaceScopeAndPurpose}
                         />
                         <InputField
                             type="text"
                             label="Geographic scope"
+                            value={dataSpace.geographicScope}
                             placeholder="Málaga..."
                             onBlur={() => {
                                 setDataSpace((prev) => ({
                                     ...prev,
                                     ['geographicScope']: dataSpace.geographicScope.trim()
                                 }))
-                                handleDataSpaceChange("geographicScope");
                                 validateSimpleTextMandatoryField(dataSpace.geographicScope, 'dataSpaceGeographicScope');
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorSimpleTextMandatory.dataSpaceGeographicScope) setErrorSimpleTextMandatory(prev => ({ ...prev, dataSpaceGeographicScope: "" }));
 
-                                handleDataSpaceChange("geographicScope");
+                                handleDataSpaceChange("geographicScope", newValue);
                             }}
                             error={errorSimpleTextMandatory.dataSpaceGeographicScope}
                         />
@@ -505,6 +447,7 @@ function ContextForm() {
                         <InputField
                             type="text"
                             label="Legal name"
+                            value={technicalAuthority.legalName}
                             placeholder="Ekko Roger..."
                             disabled={managingEqualsTechnicalChecked}
                             onBlur={() => {
@@ -512,19 +455,19 @@ function ContextForm() {
                                     ...prev,
                                     ['legalName']: technicalAuthority.legalName.trim()
                                 }))
-                                handleTechnicalChange("legalName");
                                 validateMandatoryField(technicalAuthority.legalName, "technicalAuthorityLegalName");
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorBlankMandatoryField.technicalAuthorityLegalName) setErrorMandatoryField(prev => ({ ...prev, technicalAuthorityLegalName: "" }));
 
-                                handleTechnicalChange("legalName");
+                                handleTechnicalChange("legalName", newValue);
                             }}
                             error={errorBlankMandatoryField.technicalAuthorityLegalName}
                         />
                         <InputField
                             type="text"
                             label="Tax Id"
+                            value={technicalAuthority.taxId}
                             placeholder="Tax Id..."
                             disabled={managingEqualsTechnicalChecked}
                             onBlur={() => {
@@ -532,55 +475,52 @@ function ContextForm() {
                                     ...prev,
                                     ['taxId']: technicalAuthority.taxId.trim().toUpperCase()
                                 }))
-                                handleTechnicalChange("taxId")
                                 validateTaxId(technicalAuthority.taxId, "technicalAuthorityTaxId")
                             }}
-                            onChange={() => {
+                            onChange={(newValue) => {
                                 if (errorTaxId.technicalAuthorityTaxId) setErrorTaxId(prev => ({ ...prev, technicalAuthorityTaxId: '' }));
 
-                                handleTechnicalChange("taxId");
+                                handleTechnicalChange("taxId", newValue);
                             }}
                             error={errorTaxId.technicalAuthorityTaxId}
                         />
                         <InputField
                             type="text"
                             label="Governance role"
+                            value={technicalAuthority.governanceRole}
                             placeholder="Administrator..."
-                            onBlur={() => {
-                                handleTechnicalChange("governanceRole")
-                            }}
-                            onChange={() => {
-                                handleTechnicalChange("governanceRole");
+                            onChange={(newValue) => {
+                                handleTechnicalChange("governanceRole", newValue);
                             }}
                         />
                         <InputField
                             type="email"
                             label="Contact information"
+                            value={technicalAuthority.contact}
                             placeholder="contact@information.com"
                             onBlur={() => {
                                 setTechnicalAuthority((prev) => ({
                                     ...prev,
                                     ['contact']: technicalAuthority.contact.trim()
                                 }))
-                                handleTechnicalChange("contact")
                             }}
-                            onChange={() => {
-                                handleTechnicalChange("contact")
+                            onChange={(newValue) => {
+                                handleTechnicalChange("contact", newValue)
                             }}
                         />
                         <InputField
                             type="text"
                             label="Geographic scope"
+                            value={technicalAuthority.geographicScope}
                             placeholder="Málaga..."
                             onBlur={() => {
                                 setTechnicalAuthority((prev) => ({
                                     ...prev,
                                     ['geographicScope']: technicalAuthority.geographicScope.trim()
                                 }))
-                                handleTechnicalChange("geographicScope")
                             }}
-                            onChange={() => {
-                                handleTechnicalChange("geographicScope")
+                            onChange={(newValue) => {
+                                handleTechnicalChange("geographicScope", newValue)
                             }}
                         />
                     </div>
@@ -591,10 +531,10 @@ function ContextForm() {
                         <InputField
                             type="number"
                             label="Number of participants"
+                            value={numberOfParticipants}
                             placeholder="100"
-                            onChange={() => {
-                                // setNumberOfParticipants(Number.parseInt(e.target.value.trim()))
-                                setNumberOfParticipants(numberOfParticipants)
+                            onChange={(newValue) => {
+                                setNumberOfParticipants(newValue)
                                 mergeContextDraft({
                                     numberOfParticipants: numberOfParticipants
                                 })
@@ -603,6 +543,7 @@ function ContextForm() {
                         <InputField
                             type="text"
                             label="Participants type"
+                            value={participantType}
                             placeholder="Students and teachers..."
                             onBlur={() => {
                                 setParticipantType(participantType?.trim())
@@ -610,16 +551,17 @@ function ContextForm() {
                                     participantType: participantType
                                 })
                             }}
-                            onChange={() => {
-                                setParticipantType(participantType?.trim())
+                            onChange={(newValue) => {
+                                setParticipantType(newValue)
                             }}
                         />
                         <InputField
                             type="text"
                             label="Version"
+                            value={version}
                             placeholder="v0.1..."
-                            onChange={() => {
-                                setVersion(version?.trim())
+                            onChange={(newValue) => {
+                                setVersion(newValue.trim())
                                 mergeContextDraft({
                                     version: version
                                 })
