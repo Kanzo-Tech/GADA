@@ -6,7 +6,7 @@ import '../../styles/doc-gen.css'
 import { navigation } from '@/components/redirecting';
 import { addGeneratedConfigFromDraft, clearContextDraft, loadContextDraft, mergeContextDraft } from '@/components/local-storage';
 
-const docTypes: SelectOption[] = [
+export const docTypes: SelectOption[] = [
     { label: "Data space rulebook", value: "dataspace-rb" },
     { label: "Membership agreement", value: "membership-agreement" },
     { label: "General terms and conditions", value: "general-tc" },

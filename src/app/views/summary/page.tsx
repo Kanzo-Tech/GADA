@@ -3,15 +3,16 @@
 import { useEffect, useState } from "react";
 import { GeneratedConfig, loadGeneratedConfigs, removeGeneratedConfig, saveContextDraft } from "@/components/local-storage";
 import { navigation } from "@/components/redirecting";
+import { docTypes } from "../export/page";
 
 function SummaryView() {
     const [configs, setConfigs] = useState<GeneratedConfig[]>([]);
     const { navigateTo } = navigation();
 
     useEffect(() => {
-        setConfigs(loadGeneratedConfigs());
+        const all = loadGeneratedConfigs();
+        setConfigs(all);
     }, []);
-
 
     const handleEdit = (cfg: GeneratedConfig) => {
         saveContextDraft({
@@ -31,6 +32,27 @@ function SummaryView() {
     const handleRemove = (cfg: GeneratedConfig) => {
         removeGeneratedConfig(cfg.id);
         setConfigs(loadGeneratedConfigs());
+    }
+
+    const handleDownload = async (cfg: GeneratedConfig) => {
+        // const documentsToBeGenerated = cfg.docTypes[0];
+
+        const response = await fetch('/api/document-generation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cfg: cfg,
+            }),
+        });
+        if (response.ok) {
+            navigateTo('/export');
+        } else {
+            alert(response.statusText);
+            return;
+        }
+
     }
 
     if (configs.length === 0) {
@@ -81,13 +103,19 @@ function SummaryView() {
                             </div>
                             <div>
                                 <button
-                                    className="px-3 py-1 text-xs border rounded mr-2"
+                                    className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
                                     onClick={() => handleEdit(cfg)}
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    className="text-xs px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
+                                    className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
+                                    onClick={() => handleDownload(cfg)}
+                                >
+                                    Download
+                                </button>
+                                <button
+                                    className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
                                     onClick={() => handleRemove(cfg)}
                                 >
                                     Delete

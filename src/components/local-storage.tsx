@@ -75,7 +75,7 @@ export interface ContextDraft {
 }
 
 /**
- * Configuración completa
+ * Configuración completa. 
  * Esto es lo que se ve en la vista SUMMARY
  */
 export interface GeneratedConfig {
@@ -140,39 +140,56 @@ export function saveGeneratedConfigs(configs: GeneratedConfig[]) {
  */
 export function addGeneratedConfigFromDraft(
     draft: ContextDraft
-): GeneratedConfig | null {
+): GeneratedConfig[] | null {
+
+    const {
+        version,
+        date,
+        managingEntity,
+        dataSpace,
+        technicalAuthority,
+        docTypes,
+        outputFormats,
+        alignedRegulations
+    } = draft;
+
     if (
-        !draft.version ||
-        !draft.date ||
-        !draft.managingEntity ||
-        !draft.dataSpace ||
-        !draft.technicalAuthority
+        !version ||
+        !date ||
+        !managingEntity ||
+        !dataSpace ||
+        !technicalAuthority
     ) {
         return null;
     }
 
     const all = loadGeneratedConfigs();
 
-    const id =
+    const newId = () =>
         typeof crypto !== "undefined" && "randomUUID" in crypto
             ? crypto.randomUUID()
-            : Date.now().toString();
+            : Date.now().toString() + Math.random().toString(36).substring(2);
 
-    const cfg: GeneratedConfig = {
-        id,
-        version: draft.version,
-        date: draft.date,
-        docTypes: draft.docTypes ?? [],
-        outputFormats: draft.outputFormats ?? [],
-        allignedRegulations: draft.alignedRegulations ?? [],
-        managingEntity: draft.managingEntity,
-        dataSpace: draft.dataSpace,
-        technicalAuthority: draft.technicalAuthority
-    }
+    const safeDocTypes = docTypes ?? [];
+    const safeOutputFormats = outputFormats ?? [];
+    const safeAlignedRegulations = alignedRegulations ?? [];
 
-    const updated = [...all, cfg]
+    const newConfigs: GeneratedConfig[] = safeDocTypes.map(docType => ({
+        id: newId(),
+        version,
+        date,
+        docTypes: [docType],
+        outputFormats: safeOutputFormats,
+        allignedRegulations: safeAlignedRegulations,
+        managingEntity,
+        dataSpace,
+        technicalAuthority
+    }))
+
+
+    const updated = [...all, ...newConfigs]
     saveGeneratedConfigs(updated)
-    return cfg;
+    return updated;
 
 }
 
