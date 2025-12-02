@@ -35,7 +35,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, error, className,
             <label className="text-sm font-semibold text-gray-700">
                 {label}
             </label>
-        
+
 
             <input
                 {...props}

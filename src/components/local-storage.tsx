@@ -21,6 +21,11 @@ export function loadContextDraft(): ContextDraft | null {
     }
 }
 
+/**
+ * Guarda context draft en memoria
+ * @param draft 
+ * @returns 
+ */
 export function saveContextDraft(draft: ContextDraft) {
     if (typeof window === "undefined") return;
     const serializable: SerializableDraft = {
@@ -31,8 +36,9 @@ export function saveContextDraft(draft: ContextDraft) {
 }
 
 /**
- * Merge partial data into the draft and persist it
- * Returns merged draft
+ * Una context draft de memoria con context draft parcial
+ * @param partial Context draft parcial para unir a context draft en memoria
+ * @returns Resultado de la unión de ambos context draft
  */
 export function mergeContextDraft(partial: Partial<ContextDraft>): ContextDraft {
     const existing = loadContextDraft() ?? {};
@@ -40,7 +46,6 @@ export function mergeContextDraft(partial: Partial<ContextDraft>): ContextDraft 
         ...existing,
         ...partial
     }
-    saveContextDraft(merged);
     return merged;
 }
 
@@ -51,11 +56,17 @@ export function clearContextDraft() {
 
 // ---- Completed configurations
 
+/**
+ * Configuración parcial, no completa
+ * Se utiliza como eedd para guardar las respuestas de los formularios en tiempo real
+ */
 export interface ContextDraft {
     managingEntity?: ManagingEntity;
     dataSpace?: DataSpace;
     technicalAuthority?: TechnicalAuthority;
 
+    numberOfParticipants?: number;
+    participantType?: string;
     version?: string;
     date?: Date;
     docTypes?: string[];
@@ -63,13 +74,20 @@ export interface ContextDraft {
     alignedRegulations?: string[];
 }
 
+/**
+ * Configuración completa
+ * Esto es lo que se ve en la vista SUMMARY
+ */
 export interface GeneratedConfig {
     id: string,
     version: string,
     date: Date,
-    docTypes: string[],
-    outputFormats: string[],
-    allignedRegulations: string[],
+    numberOfParticipants?: number,
+    participantType?: string,
+    docTypes: string[],               //export      
+    outputFormats: string[],          //export        
+    allignedRegulations: string[],    //export            
+
 
     managingEntity: ManagingEntity,
     dataSpace: DataSpace,
@@ -80,7 +98,11 @@ const GENERATED_STORED_KEY = "gada-generated-configs";
 
 type SerializableGenerated = Omit<GeneratedConfig, "date"> & { date: string };
 
-
+/**
+ * Carga la configuración (todas las respuestas de los formularios hasta el momento)
+ * desde memoria
+ * @returns Config de memoria
+ */
 export function loadGeneratedConfigs(): GeneratedConfig[] {
     if (typeof window === "undefined") return [];
     const raw = window.localStorage.getItem(GENERATED_STORED_KEY);
@@ -94,6 +116,11 @@ export function loadGeneratedConfigs(): GeneratedConfig[] {
     }
 }
 
+/**
+ * Guarda en memoria una configuracion actualizada
+ * @param configs Configuracion actualizada
+ * @returns void
+ */
 export function saveGeneratedConfigs(configs: GeneratedConfig[]) {
     if (typeof window === "undefined") return;
     const serializable: SerializableGenerated[] = configs.map((c) => ({
@@ -106,6 +133,11 @@ export function saveGeneratedConfigs(configs: GeneratedConfig[]) {
     )
 }
 
+/**
+ * Añade context draft a configuración y la guarda en memoria
+ * @param draft Información nueva que se añade
+ * @returns Configuracion actualizada
+ */
 export function addGeneratedConfigFromDraft(
     draft: ContextDraft
 ): GeneratedConfig | null {
@@ -144,6 +176,11 @@ export function addGeneratedConfigFromDraft(
 
 }
 
+/**
+ * Elimina elemento concreto de memoria por id.
+ * Funcionalidad para botón delete.
+ * @param id 
+ */
 export function removeGeneratedConfig(
     id: string
 ) {

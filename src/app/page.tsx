@@ -7,8 +7,8 @@ import SummaryView from "./views/summary/page";
 export default function Home() {
   return (
     <section>
-      <SummaryView />
-      {/* <Login /> */}
+      {/* <SummaryView /> */}
+      <Login />
       {/* <Form /> */}
     </section>
   );
