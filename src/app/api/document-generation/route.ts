@@ -35,9 +35,7 @@ export async function POST(request: Request) {
         const versionValue = data.version;
         const documentToBeGenerated = data.docTypes;
 
-        console.log("data: ", data.managingEntity.name)
-
-        if (documentToBeGenerated === "dataspace-rb") {
+        if (documentToBeGenerated == "dataspace-rb") {
             const templateRouteRulebook = path.join(process.cwd(), 'templates', 'Template_Rulebook_v1.docx');
             const rulebookContent = fs.readFileSync(templateRouteRulebook, 'binary');
             const rulebookZip = new PizZip(rulebookContent);
@@ -69,7 +67,7 @@ export async function POST(request: Request) {
         }
 
 
-        if (documentToBeGenerated === "membership-agreement") {
+        if (documentToBeGenerated == "membership-agreement") {
             const templateRouteContract = path.join(process.cwd(), 'templates', 'Contrato_Adhesion_Institucional_v1.docx');
             const contractContent = fs.readFileSync(templateRouteContract, 'binary');
             const contractZip = new PizZip(contractContent);
@@ -100,7 +98,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ status: 200 })
         }
 
-        if (documentToBeGenerated === "general-tc") {
+        if (documentToBeGenerated == "general-tc") {
             const templateRouteTerms = path.join(process.cwd(), 'templates', 'Terminos_y_Condiciones_Template_v1.docx');
             const termsContent = fs.readFileSync(templateRouteTerms, 'binary');
             const termsZip = new PizZip(termsContent);

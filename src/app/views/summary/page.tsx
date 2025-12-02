@@ -46,13 +46,10 @@ function SummaryView() {
                 cfg: cfg,
             }),
         });
-        if (response.ok) {
-            navigateTo('/export');
-        } else {
+        if (!response.ok) {
             alert(response.statusText);
             return;
         }
-
     }
 
     if (configs.length === 0) {
