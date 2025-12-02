@@ -35,20 +35,39 @@ function SummaryView() {
     }
 
     const handleDownload = async (cfg: GeneratedConfig) => {
-        // const documentsToBeGenerated = cfg.docTypes[0];
+        try {
+            // Llamada a generación de documento
+            const response = await fetch('/api/document-generation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cfg: cfg,
+                }),
+            });
+            if (!response.ok) {
+                alert(response.statusText);
+                return;
+            }
 
-        const response = await fetch('/api/document-generation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                cfg: cfg,
-            }),
-        });
-        if (!response.ok) {
-            alert(response.statusText);
-            return;
+            //Llamada a descarga de documento
+            const filename = response.headers.get("Filename") ?? "documento.docx";
+
+            const blob = await response.blob();
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+
+        } catch (err) {
+            console.error('Error descargando el documento', err)
+            alert('Error descargando el documento');
         }
     }
 

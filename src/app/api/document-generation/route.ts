@@ -4,6 +4,10 @@ import fs from 'fs';
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
 
+function sanitizeFilename(name: string): string {
+    return name.replace(/[^\w.-]/g, "_");
+}
+
 function expressionParser(tag: string) {
     return {
         get: function (scope: any, context: any) {
@@ -33,7 +37,7 @@ export async function POST(request: Request) {
         let { cfg: data } = await request.json();
         const tempFolder = path.join(process.cwd(), 'temp');
         const versionValue = data.version;
-        const documentToBeGenerated = data.docTypes;
+        const documentToBeGenerated = Array.isArray(data.docTypes) ? data.docTypes[0] : data.docTypes;
 
         if (documentToBeGenerated == "dataspace-rb") {
             const templateRouteRulebook = path.join(process.cwd(), 'templates', 'Template_Rulebook_v1.docx');
@@ -61,9 +65,28 @@ export async function POST(request: Request) {
             });
 
             const nameRulebookWord = 'Rulebook_' + versionValue + '.docx';
+            const safeName = sanitizeFilename(nameRulebookWord)
             const storageRouteRulebook = path.join(tempFolder, nameRulebookWord);
+
+            // Crear carpeta temp si no existe
+            if (!fs.existsSync(tempFolder)) {
+                fs.mkdirSync(tempFolder, { recursive: true });
+            }
             fs.writeFileSync(storageRouteRulebook, wordRulebookGenerated);
-            return NextResponse.json({ status: 200 })
+
+            const fileArray = new Uint8Array(wordRulebookGenerated);
+
+            // return NextResponse.json({ status: 200 })
+            return new NextResponse(fileArray, {  //! logica de descarga
+                status: 200,
+                headers: {
+                    "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "Content-Disposition": `attachment; filename="${safeName}"`,
+                    "Filename": safeName,
+                    "Access-Control-Expose-Headers": "Filename",
+
+                },
+            })
         }
 
 
@@ -93,9 +116,28 @@ export async function POST(request: Request) {
             });
 
             const nameContractWord = 'Contrato_Adhesion_Institucional_' + versionValue + '.docx';
+            const safeName = sanitizeFilename(nameContractWord)
             const storageRouteContract = path.join(tempFolder, nameContractWord);
+
+            // Crear carpeta temp si no existe
+            if (!fs.existsSync(tempFolder)) {
+                fs.mkdirSync(tempFolder, { recursive: true });
+            }
             fs.writeFileSync(storageRouteContract, wordContractGenerated);
-            return NextResponse.json({ status: 200 })
+
+            const fileArray = new Uint8Array(wordContractGenerated);
+
+            // return NextResponse.json({ status: 200 })
+            return new NextResponse(fileArray, {  //! logica de descarga
+                status: 200,
+                headers: {
+                    "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "Content-Disposition": `attachment; filename="${safeName}"`,
+                    "Filename": safeName,
+                    "Access-Control-Expose-Headers": "Filename",
+
+                },
+            })
         }
 
         if (documentToBeGenerated == "general-tc") {
@@ -123,9 +165,28 @@ export async function POST(request: Request) {
                 compression: 'DEFLATE',
             });
             const nameTermsWord = 'Terminos_y_Condiciones_' + versionValue + '.docx';
+            const safeName = sanitizeFilename(nameTermsWord)
             const storageRouteTerms = path.join(tempFolder, nameTermsWord);
+
+            // Crear carpeta temp si no existe
+            if (!fs.existsSync(tempFolder)) {
+                fs.mkdirSync(tempFolder, { recursive: true });
+            }
             fs.writeFileSync(storageRouteTerms, wordTermsGenerated);
-            return NextResponse.json({ status: 200 })
+
+            const fileArray = new Uint8Array(wordTermsGenerated);
+
+            // return NextResponse.json({ status: 200 })
+            return new NextResponse(fileArray, {  //! logica de descarga
+                status: 200,
+                headers: {
+                    "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "Content-Disposition": `attachment; filename="${safeName}"`,
+                    "Filename": safeName,
+                    "Access-Control-Expose-Headers": "Filename",
+
+                },
+            })
         }
 
         return NextResponse.json({ error: 'Something went wrong.' }, { status: 500 });
