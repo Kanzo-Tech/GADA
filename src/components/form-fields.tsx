@@ -1,12 +1,5 @@
 import React from "react";
 
-interface InputFieldProps<T = string> {
-    title: string,
-    placeholder?: string,
-    value?: string | undefined,
-    onChange: (newValue: T) => void
-}
-
 // Props de multiselect
 interface MultiSelectProps<T = string> {
     label?: string,
@@ -31,75 +24,91 @@ export interface SelectOption<T = string> {
     value: T
 }
 
-const InputField = <T extends string | number = string>({
-    title,
-    placeholder,
-    value,
-    onChange
+interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label: string;
+    error?: string;
+}
 
-}: InputFieldProps<T>) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, error, className, ...props }) => {
     return (
-        <div>
-            <h1 className="block mb-2.5 text-sm font-medium text-heading">
-                {title}
-            </h1>
+        <div className={`flex flex-col gap-1.5 ${className}`}>
+            <label className="text-sm font-semibold text-gray-700">
+                {label}
+            </label>
+        
+
             <input
-                className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand block w-full px-2.5 py-2 shadow-xs placeholder:text-body"
-                type="text"
-                placeholder={placeholder}
-                value={value}
-                onChange={(e) => onChange(e.target.value as T)}
+                {...props}
+                className={`
+                    w-full px-4 py-2.5 rounded-lg border bg-white shadow-sm transition-all duration-200 ease-in-out
+                    placeholder-gray-400 text-gray-900
+                    focus:outline-none focus:ring-2 focus:ring-offset-1
+                    disabled:bg-gray-100 disabled:text-gray-500
+                    ${error
+                        ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                        : 'border-gray-300 focus:border-indigo-600 focus:ring-indigo-200 hover:border-gray-400'
+                    }
+                `}
             />
+            {error && (
+                <span className="text-xs text-red-600 font-medium animate-pulse mt-1 flex items-center">
+                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                        </path>
+                    </svg>
+                    {error}
+                </span>
+            )}
         </div>
     );
-}
+};
 
-const NumericField = ({
-    title,
-    placeholder,
-    value,
-    onChange
-}: InputFieldProps<number>) => {
-    return (
-        <div>
-            <h1 className="block mb-2.5 text-sm font-medium text-heading"> {title} </h1>
-            <input
-                className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand block w-full px-2.5 py-2 shadow-xs placeholder:text-body"
-                type="number"
-                placeholder={placeholder}
-                value={value ?? ""}
-                onChange={(e) => {
-                    const raw = e.target.value;
-                    onChange(raw === "" ? NaN : Number(raw))
-                }}
-            />
-        </div>
-    );
-}
+// const NumericField = ({
+//     title,
+//     placeholder,
+//     value,
+//     onChange
+// }: InputFieldProps<number>) => {
+//     return (
+//         <div>
+//             <h1 className="block mb-2.5 text-sm font-medium text-heading"> {title} </h1>
+//             <input
+//                 className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand block w-full px-2.5 py-2 shadow-xs placeholder:text-body"
+//                 type="number"
+//                 placeholder={placeholder}
+//                 value={value ?? ""}
+//                 onChange={(e) => {
+//                     const raw = e.target.value;
+//                     onChange(raw === "" ? NaN : Number(raw))
+//                 }}
+//             />
+//         </div>
+//     );
+// }
 
-const TextAreaField = ({
-    title,
-    placeholder,
-    value,
-    onChange
-}: InputFieldProps) => {
-    return (
-        <div>
-            <form>
-                <h1 className="block mb-2.5 text-sm font-medium text-heading">
-                    {title}
-                </h1>
-                <textarea
-                    id="message"
-                    className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body"
-                    placeholder={placeholder}
-                    value={value ?? ""}
-                    onChange={(e) => onChange(e.target.value)}
-                />
-            </form>
-        </div>
-    );
-}
+// const TextAreaField = ({
+//     title,
+//     placeholder,
+//     value,
+//     onChange
+// }: InputFieldProps) => {
+//     return (
+//         <div>
+//             <form>
+//                 <h1 className="block mb-2.5 text-sm font-medium text-heading">
+//                     {title}
+//                 </h1>
+//                 <textarea
+//                     id="message"
+//                     className="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-xl focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body"
+//                     placeholder={placeholder}
+//                     value={value ?? ""}
+//                     onChange={(e) => onChange?(e.target.value)}
+//                 />
+//             </form>
+//         </div>
+//     );
+// }
 
 function SelectField<T = string>({
     label,
@@ -189,9 +198,8 @@ function MultiSelectField<T = string>({
 }
 
 export {
-    InputField,
     MultiSelectField,
-    NumericField,
-    TextAreaField,
+    //NumericField,
+    //TextAreaField,
     SelectField
 }

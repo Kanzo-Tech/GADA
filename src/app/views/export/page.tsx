@@ -31,14 +31,12 @@ function DocgenForm() {
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
-    const [versionLabel, setVersionLabel] = useState<string>("");
 
     const { navigateTo } = navigation();
 
     const handleSubmit = () => {
         // merge data into draft
         const draft = mergeContextDraft({
-            version: versionLabel,
             date: new Date(),
             docTypes: selectedDocTypes,
             outputFormats: selectedOutputFormats,
@@ -106,14 +104,8 @@ function DocgenForm() {
                         value={selectedAllignedRegulations}
                         onChange={setAllignedRegulations}
                     />
-                    <InputField
-                        title='Version label'
-                        placeholder='v1.0'
-                        value={versionLabel}
-                        onChange={(version_label) => setVersionLabel(version_label)}
-                    />
-                </div>
-            </section>
+                </div >
+            </section >
             <button
                 type="button"
                 onClick={handleSubmit}
@@ -121,7 +113,7 @@ function DocgenForm() {
             >
                 Submit
             </button>
-        </div>
+        </div >
     );
 }
 

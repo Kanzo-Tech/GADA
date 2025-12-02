@@ -7,7 +7,7 @@ import { clearContextDraft } from '@/components/local-storage';
 import { Logo } from '@/components/logo';
 
 const Login: React.FC = () => {
-    //BORRAR LA SIGUIENTE FUNCIÓN CUANDO SE IMPLEMENTE EL LOGIN: - implementada V0.1
+    //BORRAR LA SIGUIENTE FUNCIÓN CUANDO SE IMPLEMENTE EL LOGIN: - V0.1
     const { navigateTo } = navigation();
     const formRedirect = () => {
         clearContextDraft();
