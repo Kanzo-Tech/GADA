@@ -29,7 +29,6 @@ function expressionParser(tag: string) {
 /**
  * Generate document
  * @param request 
- * @param documentToBeGenerated 
  * @returns 
  */
 export async function POST(request: Request) {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { GeneratedConfig, loadGeneratedConfigs, removeGeneratedConfig, saveContextDraft } from "@/components/local-storage";
 import { navigation } from "@/components/redirecting";
-import { docTypes } from "../export/page";
+import { docTypes } from "../../(app)/export/page";
 
 function SummaryView() {
     const [configs, setConfigs] = useState<GeneratedConfig[]>([]);

@@ -1,7 +1,7 @@
 import Sidebar from "@/components/sidebar";
-import Form from "./views/export/page";
-import Login from "./views/login/page"
-import SummaryView from "./views/summary/page";
+import Form from "./(app)/export/page";
+import Login from "./(auth)/login/page"
+import SummaryView from "./(app)/summary/page";
 
 
 export default function Home() {

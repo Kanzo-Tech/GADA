@@ -2,7 +2,6 @@
 import React from 'react';
 import '../../styles/login-layout.css';
 import { navigation } from '@/components/redirecting';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import { clearContextDraft } from '@/components/local-storage';
 import { Logo } from '@/components/logo';
 
