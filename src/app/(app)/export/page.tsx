@@ -14,15 +14,15 @@ export const docTypes: SelectOption[] = [
 ]
 
 const outputFormats: SelectOption[] = [
-    { label: "PDF", value: "pdf", disabled: true},
+    { label: "PDF", value: "pdf", disabled: true },
     { label: "Word", value: "word" },
-    { label: "JSON-LD", value: "jsonld", disabled: true},
-    { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf", disabled: true}
+    { label: "JSON-LD", value: "jsonld", disabled: true },
+    { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf", disabled: true }
 ]
 
 const regulationsAlligned: SelectOption[] = [
     { label: "GDPR", value: "gdpr", checkedMandatory: true },
-    { label: "Data act", value: "data-act", checkedMandatory: true},
+    { label: "Data act", value: "data-act", checkedMandatory: true },
     { label: "Data governance act", value: "data-governance-act", checkedMandatory: true },
     { label: "Others...", value: "others" },
 ]
@@ -100,33 +100,33 @@ function DocgenForm() {
                         <div className="columns-style-3">
                             <div className="space-y-4">
                                 <MultiSelectField
-                                label='Documents to be generated'
-                                options={docTypes}
-                                value={selectedDocTypes}
-                                onChange={setSelectedDocTypes}
+                                    label='Documents to be generated'
+                                    options={docTypes}
+                                    value={selectedDocTypes}
+                                    onChange={setSelectedDocTypes}
                                 />
                             </div>
                             <div className="space-y-4 md:border-l md:border-r md:border-gray-100 md:px-6">
                                 <MultiSelectField
-                                label='Output format'
-                                options={outputFormats}
-                                value={selectedOutputFormats}
-                                onChange={setSelectedOutputFormats}
+                                    label='Output format'
+                                    options={outputFormats}
+                                    value={selectedOutputFormats}
+                                    onChange={setSelectedOutputFormats}
                                 />
                             </div>
                             <div className="space-y-4">
                                 <MultiSelectField
-                                disabled={true}
-                                label='Allignment with regulations'
-                                options={regulationsAlligned}
-                                value={selectedAllignedRegulations}
-                                onChange={setAllignedRegulations}
+                                    disabled={true}
+                                    label='Allignment with regulations'
+                                    options={regulationsAlligned}
+                                    value={selectedAllignedRegulations}
+                                    onChange={setAllignedRegulations}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div className="w-full pt-6 flex justify-center">
                     <button
