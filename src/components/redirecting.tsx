@@ -4,7 +4,7 @@ export const navigation = () => {
     const router = useRouter();
 
     const navigateTo = (route: string) => {
-        router.push("/views" + route);
+        router.push(route);
     };
 
     return { navigateTo };
