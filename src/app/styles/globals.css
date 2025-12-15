@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "./login-layout.css";
+@import "./context-layout.css";
+@import "./export.css";
 
 :root {
   --background: #ffffff;
@@ -29,4 +30,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.submit-button{
+    @apply w-fit px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg shadow-indigo-200 transition-all duration-200
+}
+
+.h1-style{
+    @apply flex items-start text-4xl font-bold text-slate-900 tracking-tight
+}
+
+.h2-style{
+    @apply text-2xl font-bold text-gray-800
 }

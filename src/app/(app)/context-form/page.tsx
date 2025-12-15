@@ -3,6 +3,7 @@
 import { InputField } from "@/components/form-fields";
 import { useEffect, useState } from "react";
 import '../../styles/context-layout.css';
+import '../../styles/globals.css';
 import { navigation } from "@/components/redirecting";
 import {
     IFormData,
@@ -252,7 +253,7 @@ function ContextForm() {
 
             <div className="max-w-4xl w-full bg-white border border-gray-200 rounded-2xl shadow-xl p-8 md:p-12 space-y-10">
                 <section className="space-y-6">
-                    <div className="title-div">
+                    <div className="title-div-context">
                         <h2 className="h2-style">Managing entity</h2>
                     </div>
                     <div className="context-form-inputs">
@@ -340,7 +341,7 @@ function ContextForm() {
                         />
                     </div>
                 </section>
-                <section className="checkbox-container">
+                <section className="checkbox-container-context">
                     <div className="flex h-6 items-center">
                         <input
                             id="managingEqualsTechnicalCheckbox"
@@ -357,7 +358,7 @@ function ContextForm() {
                     </div>
                 </section>
                 <section className="space-y-6">
-                    <div className="title-div">
+                    <div className="title-div-context">
                         <h2 className="h2-style">Data Space information</h2>
                     </div>
                     <div className="context-form-inputs">
@@ -440,7 +441,7 @@ function ContextForm() {
                     </div>
                 </section>
                 <section className="space-y-6">
-                    <div className="title-div">
+                    <div className="title-div-context">
                         <h2 className="h2-style">Technical authority</h2>
                     </div>
                     <div className="context-form-inputs">
@@ -526,7 +527,7 @@ function ContextForm() {
                     </div>
                 </section>
                 <section className="space-y-6">
-                    <div className="title-div"></div>
+                    <div className="title-div-context"></div>
                     <div className="context-form-inputs">
                         <InputField
                             type="number"

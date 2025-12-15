@@ -21,7 +21,9 @@ interface SelectProps<T = string> {
 // Tipo genérico para las opciones
 export interface SelectOption<T = string> {
     label: string,
-    value: T
+    value: T,
+    disabled?: boolean,
+    checkedMandatory?: boolean;
 }
 
 export type InputFieldProps<T extends string | number = string> = {
@@ -55,15 +57,15 @@ export const InputField = <T extends string | number = string>(
                 value={value}
                 onChange={(e) => onChange(e.target.value as T)}
                 className={`
-          w-full px-4 py-2.5 rounded-lg border bg-white shadow-sm transition-all duration-200 ease-in-out
-          placeholder-gray-400 text-gray-900
-          focus:outline-none focus:ring-2 focus:ring-offset-1
-          disabled:bg-gray-100 disabled:text-gray-500
-          ${error
+                    w-full px-4 py-2.5 rounded-lg border bg-white shadow-sm transition-all duration-200 ease-in-out
+                    placeholder-gray-400 text-gray-900
+                    focus:outline-none focus:ring-2 focus:ring-offset-1
+                    disabled:bg-gray-100 disabled:text-gray-500
+                    ${error
                         ? "border-red-400 focus:border-red-500 focus:ring-red-200"
                         : "border-gray-300 focus:border-indigo-600 focus:ring-indigo-200 hover:border-gray-400"
                     }
-        `}
+                `}
             />
 
             {error && (
@@ -174,9 +176,11 @@ function MultiSelectField<T = string>({
     value,
     onChange,
     placeholder = "Selecciona opciones...",
-    disabled = false,
 }: MultiSelectProps<T>) {
+
     const handleToggle = (optionValue: T) => {
+        
+
         if (value.includes(optionValue)) {
             //quitar
             onChange(value.filter(v => v !== optionValue));
@@ -188,28 +192,58 @@ function MultiSelectField<T = string>({
 
     return (
         <div className="flex flex-col gap-2">
-            {label && <span className="text-xl font-medium">{label}</span>}
+            {label && (
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider">
+                    {label}
+                </h3>
+            )}
 
             {options.length === 0 ? (
-                <span className="text-sm text-gray-500">{placeholder}</span>
+                <span className="text-sm text-gray-500 italic">{placeholder}</span>
             ) : (
-                <ul className="flex flex-col gap-1">
-                    {options.map((opt) =>
-                        <li key={String(opt.value)} className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                disabled={disabled}
-                                checked={value.includes(opt.value)}
-                                onChange={() => handleToggle(opt.value)}
-                            />
-                            <span className={disabled ? "text-gray-400" : ""}>
-                                {opt.label}
-                            </span>
-                        </li>
-                    )}
+                <ul className="grid grid-cols-1 gap-2">
+                    {options.map((opt) => {
+                        const isSelected = value.includes(opt.value);
+                        const isCheckedMandatory = opt.checkedMandatory ? opt.checkedMandatory : false;
+                        return(
+                            <li
+                                key={String(opt.value)}
+                                onClick={() => {
+                                    if(!isCheckedMandatory){
+                                        handleToggle(opt.value)
+                                    }
+                                }}
+                                className={`
+                                    group flex items-center p-3 rounded-lg border cursor-pointer transition-all duration-200 select-none
+                                    ${opt.disabled ? 'opacity-50 cursor-not-allowed bg-gray-50' : ''}
+                                    ${isSelected || isCheckedMandatory
+                                        ? 'bg-indigo-50 border-indigo-600 shadow-sm'
+                                        : 'bg-white border-gray-200 hover:border-indigo-300 hover:bg-gray-50'
+                                    }
+                                `}
+                            >
+                                <div className={`
+                                    flex items-center justify-center w-5 h-5 rounded border mr-3 transition-colors
+                                    ${isSelected || isCheckedMandatory
+                                        ? 'bg-indigo-600 border-indigo-600'
+                                        : 'bg-white border-gray-300 group-hover:border-indigo-400'
+                                    }
+                                `}>
+                                    {isSelected || isCheckedMandatory && (
+                                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    )}
+                                </div>
+
+                                <span className={`text-sm font-medium ${isSelected ? 'text-indigo-900' : 'text-gray-700'}`}>
+                                    {opt.label}
+                                </span>
+                            </li>
+                        );
+                    })}
                 </ul>
-            )
-            }
+            )}
         </div>
     );
 }
