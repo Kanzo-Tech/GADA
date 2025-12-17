@@ -42,11 +42,17 @@
     },
     "summary": {
         "title": "Documentos generados",
-        "message": "No has definido ningún documento aún",
+        "message": "No se han generado documentos aún.",
+        "descriptionEmpty": "Para comenzar con la generación de las plantillas pulse el botón a continuación.",
+        "description": "Listado de plantillas listas para descargar y usar",
         "create": "Crea tu primer documento",
         "edit": "Editar",
         "delete": "Eliminar",
-        "download": "Descargar"
+        "download": "Descargar",
+        "entity": "Entidad: ",
+        "format": "Formatos: ",
+        "documents": "Documentos: ",
+        "regulations": "Regulaciones: "
     },
     "sidebar": {
         "context": "Contexto",
