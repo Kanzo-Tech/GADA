@@ -1,9 +1,12 @@
 'use client';
+import { useRouter } from "@/i18n/navigation";
 import { Logo } from "./logo";
-import { navigation } from "./redirecting";
+import { useTranslations } from "next-intl";
+
 
 export function Sidebar() {
-    const { navigateTo } = navigation();
+    const router = useRouter();
+    const t = useTranslations("sidebar");
 
     return (
         <aside className="flex flex-col border border-slate-900 h-screen w-56 shrink-0 bg-[#ededed]">
@@ -15,30 +18,30 @@ export function Sidebar() {
             <nav className="flex-1 p-4 border-b flex flex-col gap-3">
                 <button
                     className="text-left px-2 py-1 hover:bg-gray-300 rounded"
-                    onClick={() => { navigateTo('/context-form') }}
+                    onClick={() => router.push("/context-form")}
                 >
-                    Context
+                    {t("context")}
                 </button>
                 <button
                     className="text-left px-2 py-1 hover:bg-gray-300 rounded"
-                    onClick={() => { navigateTo('/export') }}>
-                    Export
+                    onClick={() => { router.push("/export") }}>
+                    {t("export")}
                 </button>
                 <button
                     className="text-left px-2 py-1 hover:bg-gray-300 rounded"
-                    onClick={() => { navigateTo('/summary') }}
+                    onClick={() => { router.push("/summary") }}
                 >
-                    Documents generated
+                    {t("documents")}
                 </button>
             </nav>
 
             {/* FOOTER: SETTINGS + HELP */}
             <div className="p-4 flex flex-col gap-3">
                 <button className="text-left px-2 py-1 hover:bg-gray-300 rounded">
-                    ⚙ Configuración (WIP)
+                    ⚙ {t("configuration")} (WIP)
                 </button>
                 <button className="text-left px-2 py-1 hover:bg-gray-300 rounded">
-                    ❓ Ayuda / About (WIP)
+                    ❓ {t("help")} (WIP)
                 </button>
             </div>
         </aside>

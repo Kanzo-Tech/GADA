@@ -2,8 +2,8 @@
 
 import { InputField } from "@/components/form-fields";
 import { useEffect, useState } from "react";
-import '../../styles/context-layout.css';
-import '../../styles/globals.css';
+import '../../../styles/context-layout.css';
+import '../../../styles/globals.css';
 import { navigation } from "@/components/redirecting";
 import {
     IFormData,
@@ -12,9 +12,10 @@ import {
     type TechnicalAuthority
 } from "@/components/i-form-data";
 import { mergeContextDraft, loadContextDraft, ContextDraft, addGeneratedConfigFromDraft, saveContextDraft } from "@/components/local-storage";
-import { Amarante } from "next/font/google";
+import { useTranslations } from "next-intl";
 
 function ContextForm() {
+    const t = useTranslations("context-form");
 
     const [managingEntity, setManagingEntity] = useState<ManagingEntity>({
         name: "",
@@ -254,12 +255,12 @@ function ContextForm() {
             <div className="max-w-4xl w-full bg-white border border-gray-200 rounded-2xl shadow-xl p-8 md:p-12 space-y-10">
                 <section className="space-y-6">
                     <div className="title-div-context">
-                        <h2 className="h2-style">Managing entity</h2>
+                        <h2 className="h2-style"> {t("managingTitle")}</h2>
                     </div>
                     <div className="context-form-inputs">
                         <InputField
                             type="text"
-                            label="Name"
+                            label={t("managingName")}
                             value={managingEntity.name}
                             minLength={3}
                             placeholder="Juan Teodomiro López Navarrete"
@@ -281,7 +282,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Tax id"
+                            label={t("managingTaxId")}
                             value={managingEntity.taxId}
                             maxLength={9}
                             placeholder="X1234567X"
@@ -301,7 +302,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Address"
+                            label={t("managingAddress")}
                             value={managingEntity.address}
                             minLength={7}
                             placeholder="Avenida de Cervantes, 2, 29071 Malaga"
@@ -321,7 +322,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Legal representative name"
+                            label={t("managingLegalName")}
                             value={managingEntity.legalRepresentative}
                             minLength={3}
                             placeholder="Tony Chopper..."
@@ -359,12 +360,12 @@ function ContextForm() {
                 </section>
                 <section className="space-y-6">
                     <div className="title-div-context">
-                        <h2 className="h2-style">Data Space information</h2>
+                        <h2 className="h2-style"> {t("dataSpaceTitle")} </h2>
                     </div>
                     <div className="context-form-inputs">
                         <InputField
                             type="text"
-                            label="Name"
+                            label={t("dataSpaceName")}
                             value={dataSpace.name}
                             placeholder="Malaga University..."
                             onBlur={() => {
@@ -382,7 +383,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Sector"
+                            label={t("dataSpaceSector")}
                             value={dataSpace.sector}
                             placeholder="Education..."
                             onBlur={() => {
@@ -402,7 +403,7 @@ function ContextForm() {
                         <InputField
                             type="text"
                             minLength={10}
-                            label="Scope and purpose"
+                            label={t("dataSpaceScope")}
                             value={dataSpace.scopeAndPurpose}
                             placeholder="Educational usage for Malaga University..."
                             onBlur={() => {
@@ -421,7 +422,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Geographic scope"
+                            label={t("dataSpaceGeographicScope")}
                             value={dataSpace.geographicScope}
                             placeholder="Málaga..."
                             onBlur={() => {
@@ -442,12 +443,12 @@ function ContextForm() {
                 </section>
                 <section className="space-y-6">
                     <div className="title-div-context">
-                        <h2 className="h2-style">Technical authority</h2>
+                        <h2 className="h2-style">{t("technicalTitle")}</h2>
                     </div>
                     <div className="context-form-inputs">
                         <InputField
                             type="text"
-                            label="Legal name"
+                            label={t("technicalName")}
                             value={technicalAuthority.legalName}
                             placeholder="Ekko Roger..."
                             disabled={managingEqualsTechnicalChecked}
@@ -467,7 +468,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Tax Id"
+                            label={t("technicalTaxId")}
                             value={technicalAuthority.taxId}
                             placeholder="Tax Id..."
                             disabled={managingEqualsTechnicalChecked}
@@ -487,7 +488,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Governance role"
+                            label={t("technicalRole")}
                             value={technicalAuthority.governanceRole}
                             placeholder="Administrator..."
                             onChange={(newValue) => {
@@ -496,7 +497,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="email"
-                            label="Contact information"
+                            label={t("technicalContact")}
                             value={technicalAuthority.contact}
                             placeholder="contact@information.com"
                             onBlur={() => {
@@ -511,7 +512,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Geographic scope"
+                            label={t("technicalGeographicScope")}
                             value={technicalAuthority.geographicScope}
                             placeholder="Málaga..."
                             onBlur={() => {
@@ -531,7 +532,7 @@ function ContextForm() {
                     <div className="context-form-inputs">
                         <InputField
                             type="number"
-                            label="Number of participants"
+                            label={t("numberOfParticipants")}
                             value={numberOfParticipants}
                             placeholder="100"
                             onChange={(newValue) => {
@@ -543,7 +544,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Participants type"
+                            label={t("participantsType")}
                             value={participantType}
                             placeholder="Students and teachers..."
                             onBlur={() => {
@@ -558,7 +559,7 @@ function ContextForm() {
                         />
                         <InputField
                             type="text"
-                            label="Version"
+                            label={t("version")}
                             value={version}
                             placeholder="v0.1..."
                             onChange={(newValue) => {

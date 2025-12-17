@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-import { InputField, MultiSelectField, SelectOption } from '../../../components/form-fields';
-import '../../styles/export.css';
-import '../../styles/globals.css';
+import '../../../styles/export.css';
+import '../../../styles/globals.css';
 import { navigation } from '@/components/redirecting';
 import { addGeneratedConfigFromDraft, clearContextDraft, loadContextDraft, mergeContextDraft } from '@/components/local-storage';
+import { MultiSelectField, SelectOption } from '@/components/form-fields';
+import { useTranslations } from 'next-intl';
 
 export const docTypes: SelectOption[] = [
     { label: "Data space rulebook", value: "dataspace-rb" },
@@ -14,21 +15,23 @@ export const docTypes: SelectOption[] = [
 ]
 
 const outputFormats: SelectOption[] = [
-    { label: "PDF", value: "pdf", disabled: true},
+    { label: "PDF", value: "pdf", disabled: true },
     { label: "Word", value: "word" },
-    { label: "JSON-LD", value: "jsonld", disabled: true},
-    { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf", disabled: true}
+    { label: "JSON-LD", value: "jsonld", disabled: true },
+    { label: "RDF (N-Triples, Turtle, RDF/XML...", value: "rdf", disabled: true }
 ]
 
 const regulationsAlligned: SelectOption[] = [
     { label: "GDPR", value: "gdpr", checkedMandatory: true },
-    { label: "Data act", value: "data-act", checkedMandatory: true},
+    { label: "Data act", value: "data-act", checkedMandatory: true },
     { label: "Data governance act", value: "data-governance-act", checkedMandatory: true },
     { label: "Others...", value: "others" },
 ]
 
 
 function DocgenForm() {
+    const t = useTranslations("export");
+
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
@@ -89,10 +92,10 @@ function DocgenForm() {
             <div className="father-div-export">
                 <div className="max-w-4xl w-full text-start mb-8">
                     <h1 className="h1-style">
-                        Configuración de la exportación
+                        {t("exportTitle")}
                     </h1>
                     <p className="text-gray-500 text-lg mt-2">
-                        Selecciona los parámetros para generar tu documentación.
+                        {t("exportDescription")}
                     </p>
                 </div>
                 <div className="w-full grid gap-4">
@@ -100,33 +103,33 @@ function DocgenForm() {
                         <div className="columns-style-3">
                             <div className="space-y-4">
                                 <MultiSelectField
-                                label='Documents to be generated'
-                                options={docTypes}
-                                value={selectedDocTypes}
-                                onChange={setSelectedDocTypes}
+                                    label={t("documentTitle")}
+                                    options={docTypes}
+                                    value={selectedDocTypes}
+                                    onChange={setSelectedDocTypes}
                                 />
                             </div>
                             <div className="space-y-4 md:border-l md:border-r md:border-gray-100 md:px-6">
                                 <MultiSelectField
-                                label='Output format'
-                                options={outputFormats}
-                                value={selectedOutputFormats}
-                                onChange={setSelectedOutputFormats}
+                                    label={t("outputFormatTitle")}
+                                    options={outputFormats}
+                                    value={selectedOutputFormats}
+                                    onChange={setSelectedOutputFormats}
                                 />
                             </div>
                             <div className="space-y-4">
                                 <MultiSelectField
-                                disabled={true}
-                                label='Allignment with regulations'
-                                options={regulationsAlligned}
-                                value={selectedAllignedRegulations}
-                                onChange={setAllignedRegulations}
+                                    disabled={true}
+                                    label={t("allignmentWithRegulations")}
+                                    options={regulationsAlligned}
+                                    value={selectedAllignedRegulations}
+                                    onChange={setAllignedRegulations}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div className="w-full pt-6 flex justify-center">
                     <button

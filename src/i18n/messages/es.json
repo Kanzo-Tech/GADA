@@ -1,0 +1,58 @@
+{
+    "common": {
+        "language": "Idioma",
+        "spanish": "Español",
+        "english": "Inglés"
+    },
+    "login": {
+        "title": "Inicia sesión",
+        "description": "Inicia sesión con tu cuenta de google",
+        "buttonText": "Inicia sesión con Supabase"
+    },
+    "context-form": {
+        "managingTitle": "Unidad gestora",
+        "dataSpaceTitle": "Información del espacio de datos",
+        "technicalTitle": "Autoridad técnica",
+        "managingName": "Nombre",
+        "managingTaxId": "CIF/NIF/NIE",
+        "managingAddress": "Dirección",
+        "managingLegalName": "Nombre del representante legal",
+        "dataSpaceName": "Nombre",
+        "dataSpaceScope": "Alcance y propósito",
+        "dataSpaceSector": "Sector",
+        "dataSpaceGeographicScope": "Localización geográfica",
+        "technicalName": "Nombre",
+        "technicalTaxId": "CIF/NIF/NIE",
+        "technicalRole": "Rol",
+        "technicalContact": "Información de contacto",
+        "technicalGeographicScope": "Localización geográfica",
+        "numberOfParticipants": "Número de participantes",
+        "participantsType": "Tipo de participantes",
+        "version": "Versión"
+    },
+    "export": {
+        "exportTitle": "Configuración de exportación",
+        "documentTitle": "Documentos a generar",
+        "exportDescription": "Selecciona los parámetros de los documentos a generar",
+        "outputFormatTitle": "Formatos",
+        "allignmentWithRegulations": "Alineación con las regulaciones",
+        "dataSpaceRulebook": "Rulebook",
+        "membershipAgreement": "Acuerdo de membresía",
+        "termsAndConditions": "Términos y condiciones"
+    },
+    "summary": {
+        "title": "Documentos generados",
+        "message": "No has definido ningún documento aún",
+        "create": "Crea tu primer documento",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "download": "Descargar"
+    },
+    "sidebar": {
+        "context": "Contexto",
+        "export": "Exportación",
+        "documents": "Documentos generados",
+        "configuration": "Configuración",
+        "help": "Ayuda"
+    }   
+}
