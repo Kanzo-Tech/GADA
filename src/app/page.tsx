@@ -1,6 +1,6 @@
 import Sidebar from "@/components/sidebar";
 import Form from "./(app)/export/page";
-import Login from "./(auth)/login/page"
+import Login from "./[locale]/(auth)/login/page"
 import SummaryView from "./(app)/summary/page";
 
 
