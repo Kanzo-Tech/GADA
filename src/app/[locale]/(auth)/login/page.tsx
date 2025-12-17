@@ -1,16 +1,20 @@
-'use client';
+"use client";
+
 import React from 'react';
-import '../../styles/login-layout.css';
-import { navigation } from '@/components/redirecting';
+import '../../../styles/login-layout.css';
 import { clearContextDraft } from '@/components/local-storage';
 import { Logo } from '@/components/logo';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 const Login: React.FC = () => {
+    const t = useTranslations("login");
+
     //BORRAR LA SIGUIENTE FUNCIÓN CUANDO SE IMPLEMENTE EL LOGIN: - V0.1
-    const { navigateTo } = navigation();
+    const router = useRouter();
     const formRedirect = () => {
         clearContextDraft();
-        navigateTo('/context-form');
+        router.push("/context-form");
     };
     return (
         <div className='flex min-h-screen w-full'>
@@ -26,14 +30,15 @@ const Login: React.FC = () => {
 
                 <div className="max-w-md text-center">
                     <h2 className="text-4xl font-bold text-slate-900 mb-4">
-                        Welcome to Gada
+                        {t("title")}
+                        {/* Welcome to Gada */}
                     </h2>
                     <p className="text-gray-500 text-lg">
-                        Login with your Google account
+                        {t("description")}
                     </p>
                     <div className="flex justify-center w-full mt-5">
                         <button className="btn-supabase" onClick={formRedirect}>
-                            Iniciar sesión con Supabase
+                            {t("buttonText")}
                         </button>
                     </div>
                 </div>

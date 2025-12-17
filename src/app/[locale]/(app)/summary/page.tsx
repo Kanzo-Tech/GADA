@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import { GeneratedConfig, loadGeneratedConfigs, removeGeneratedConfig, saveContextDraft } from "@/components/local-storage";
 import { navigation } from "@/components/redirecting";
-import { docTypes } from "../../(app)/export/page";
+import { useTranslations } from "next-intl";
 
 function SummaryView() {
+    const t = useTranslations("summary")
+
     const [configs, setConfigs] = useState<GeneratedConfig[]>([]);
     const { navigateTo } = navigation();
 
@@ -74,15 +76,15 @@ function SummaryView() {
     if (configs.length === 0) {
         return (
             <div className="p-6 space-y-3">
-                <h1 className="text-2xl font-semibold">Generated documents</h1>
+                <h1 className="text-2xl font-semibold">{t("title")}</h1>
                 <p className="text-sm text-gray-600">
-                    You haven&apos;t defined any documents yet.
+                    {t("message")}
                 </p>
                 <button
                     className="px-3 py-2 text-sm border rounded"
                     onClick={() => navigateTo('/context-form')}
                 >
-                    Create first document
+                    {t("create")}
                 </button>
             </div>
         );
@@ -91,7 +93,7 @@ function SummaryView() {
 
     return (
         <div className="p-6 space-y-4">
-            <h1 className="text-2xl font-semibold">Generated documents</h1>
+            <h1 className="text-2xl font-semibold">{t("title")}</h1>
 
             <div className="space-y-3">
                 {configs.map((cfg) => (
@@ -122,19 +124,19 @@ function SummaryView() {
                                     className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
                                     onClick={() => handleEdit(cfg)}
                                 >
-                                    Edit
+                                    {t("edit")}
                                 </button>
                                 <button
                                     className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
                                     onClick={() => handleDownload(cfg)}
                                 >
-                                    Download
+                                    {t("download")}
                                 </button>
                                 <button
                                     className="text-xs m-1 px-3 py-1 bg-danger border hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs rounded focus:outline-none"
                                     onClick={() => handleRemove(cfg)}
                                 >
-                                    Delete
+                                    {t("delete")}
                                 </button>
                             </div>
                         </div>

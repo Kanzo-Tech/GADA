@@ -1,0 +1,12 @@
+{
+    "common": {
+        "language": "Idioma",
+        "spanish": "Español",
+        "english": "Inglés"
+    },
+    "login": {
+        "title": "Iniciar sesión",
+        "description": "Inicia sesón con tu cuenta de google",
+        "buttonText": "Iniciar sesión con Supabase"
+    }
+}

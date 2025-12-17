@@ -1,0 +1,58 @@
+{
+    "common": {
+        "language": "Language",
+        "spanish": "Spanish",
+        "english": "English"
+    },
+    "login": {
+        "title": "Log in",
+        "description": "Login with your google account",
+        "buttonText": "Login with Supabase"
+    },
+    "context-form": {
+        "managingTitle": "Governance authority",
+        "dataSpaceTitle": "Data Space information",
+        "technicalTitle": "Operator entity",
+        "managingName": "Name",
+        "managingTaxId": "Tax id",
+        "managingAddress": "Address",
+        "managingLegalName": "Legal representative name",
+        "dataSpaceName": "Name",
+        "dataSpaceScope": "Scope and purpose",
+        "dataSpaceSector": "Sector",
+        "dataSpaceGeographicScope": "Geographic scope",
+        "technicalName": "Legal name",
+        "technicalTaxId": "Tax id",
+        "technicalRole": "Governance role",
+        "technicalContact": "Contact information",
+        "technicalGeographicScope": "Geographic scope",
+        "numberOfParticipants": "Number of participants",
+        "participantsType": "Participants type",
+        "version": "Version"
+    },
+    "export": {
+        "exportTitle": "Export configuration",
+        "documentTitle": "Documents to be generated",
+        "exportDescription": "Select parameters for document generation",
+        "outputFormatTitle": "Output format",
+        "allignmentWithRegulations": "Allignment with regulations",
+        "dataSpaceRulebook": "Data spce rulebook",
+        "membershipAgreement": "Membership agreement",
+        "termsAndConditions": "General termns and conditions"
+    },
+    "summary": {
+        "title": "Generated documents",
+        "message": "You haven't defined any documents yet",
+        "create": "Create first document",
+        "edit": "Edit",
+        "delete": "Delete",
+        "download": "Download"
+    },
+    "sidebar": {
+        "context": "Context",
+        "export": "Export",
+        "documents": "Documents generated",
+        "configuration": "Configuration",
+        "help": "Help"
+    }
+}
