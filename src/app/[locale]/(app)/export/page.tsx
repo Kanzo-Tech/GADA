@@ -7,6 +7,7 @@ import { navigation } from '@/components/redirecting';
 import { addGeneratedConfigFromDraft, clearContextDraft, loadContextDraft, mergeContextDraft } from '@/components/local-storage';
 import { MultiSelectField, SelectOption } from '@/components/form-fields';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/navigation';
 
 export const docTypes: SelectOption[] = [
     { label: "Data space rulebook", value: "dataspace-rb" },
@@ -30,13 +31,12 @@ const regulationsAlligned: SelectOption[] = [
 
 
 function DocgenForm() {
+    const router = useRouter();
     const t = useTranslations("export");
 
     const [selectedDocTypes, setSelectedDocTypes] = useState<string[]>([]);
     const [selectedOutputFormats, setSelectedOutputFormats] = useState<string[]>([]);
     const [selectedAllignedRegulations, setAllignedRegulations] = useState<string[]>([]);
-
-    const { navigateTo } = navigation();
 
     const handleSubmit = () => {
         // merge data into draft
@@ -52,12 +52,13 @@ function DocgenForm() {
         clearContextDraft();
 
         if (!generated) {
-            navigateTo('/context-form')
+            router.push("/context-form")
             return;
         }
 
         // go to summary list
-        navigateTo('/summary')
+        router.push("/summary")
+
     }
 
     /**

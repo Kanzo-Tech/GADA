@@ -13,8 +13,10 @@ import {
 } from "@/components/i-form-data";
 import { mergeContextDraft, loadContextDraft, ContextDraft, addGeneratedConfigFromDraft, saveContextDraft } from "@/components/local-storage";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 function ContextForm() {
+    const router = useRouter();
     const t = useTranslations("context-form");
 
     const [managingEntity, setManagingEntity] = useState<ManagingEntity>({
@@ -51,8 +53,6 @@ function ContextForm() {
         if (draft.dataSpace) setDataSpace(draft.dataSpace);
         if (draft.technicalAuthority) setTechnicalAuthority(draft.technicalAuthority);
     }, [])
-
-    const { navigateTo } = navigation();
 
     const handleManagingChange =
         (field: keyof ManagingEntity, value: string) => {
@@ -241,7 +241,7 @@ function ContextForm() {
         ///!!!     alert("The form has to be filled correctly. Check the errors to solve them before submitting.");
         ///!!!     return;
         ///!!! }
-        navigateTo('/export');
+        router.push("/export");
     }
 
 
