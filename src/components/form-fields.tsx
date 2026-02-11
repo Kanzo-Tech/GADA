@@ -30,7 +30,7 @@ export type InputFieldProps<T extends string | number = string> = {
     label: string;
     error?: string;
     className?: string;
-    value?: T;
+    value: T;
     onChange: (value: T) => void;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange">;
 
@@ -179,7 +179,7 @@ function MultiSelectField<T = string>({
 }: MultiSelectProps<T>) {
 
     const handleToggle = (optionValue: T) => {
-        
+
 
         if (value.includes(optionValue)) {
             //quitar
@@ -205,11 +205,11 @@ function MultiSelectField<T = string>({
                     {options.map((opt) => {
                         const isSelected = value.includes(opt.value);
                         const isCheckedMandatory = opt.checkedMandatory ? opt.checkedMandatory : false;
-                        return(
+                        return (
                             <li
                                 key={String(opt.value)}
                                 onClick={() => {
-                                    if(!isCheckedMandatory){
+                                    if (!isCheckedMandatory) {
                                         handleToggle(opt.value)
                                     }
                                 }}

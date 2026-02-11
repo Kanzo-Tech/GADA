@@ -42,7 +42,9 @@ function SummaryView() {
     const handleDownload = async (cfg: GeneratedConfig) => {
         try {
             // Llamada a generación de documento
-            const response = await fetch('/api/document-generation', {
+            const apiUrl = new URL("/api/document-generation", window.location.origin).toString();
+
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,7 +54,9 @@ function SummaryView() {
                 }),
             });
             if (!response.ok) {
-                alert(response.statusText);
+                const errText = await response.text().catch(() => "");
+                console.error("Document generation failed", response.status, response.statusText);
+                alert(`Error ${response.status}: ${errText || response.statusText || "Sin detalles"}`);
                 return;
             }
 

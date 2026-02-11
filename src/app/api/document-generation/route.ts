@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import path from 'path';
 import fs from 'fs';
 import Docxtemplater from 'docxtemplater';
@@ -32,6 +32,8 @@ function expressionParser(tag: string) {
  * @returns 
  */
 export async function POST(request: Request) {
+    console.log("HIT /api/document-generation");
+
     try {
         let { cfg: data } = await request.json();
         const tempFolder = path.join(process.cwd(), 'temp');
@@ -65,7 +67,7 @@ export async function POST(request: Request) {
 
             const nameRulebookWord = 'Rulebook_' + versionValue + '.docx';
             const safeName = sanitizeFilename(nameRulebookWord)
-            const storageRouteRulebook = path.join(tempFolder, nameRulebookWord);
+            const storageRouteRulebook = path.join(tempFolder, safeName);
 
             // Crear carpeta temp si no existe
             if (!fs.existsSync(tempFolder)) {
@@ -116,7 +118,7 @@ export async function POST(request: Request) {
 
             const nameContractWord = 'Contrato_Adhesion_Institucional_' + versionValue + '.docx';
             const safeName = sanitizeFilename(nameContractWord)
-            const storageRouteContract = path.join(tempFolder, nameContractWord);
+            const storageRouteContract = path.join(tempFolder, safeName);
 
             // Crear carpeta temp si no existe
             if (!fs.existsSync(tempFolder)) {
@@ -165,7 +167,7 @@ export async function POST(request: Request) {
             });
             const nameTermsWord = 'Terminos_y_Condiciones_' + versionValue + '.docx';
             const safeName = sanitizeFilename(nameTermsWord)
-            const storageRouteTerms = path.join(tempFolder, nameTermsWord);
+            const storageRouteTerms = path.join(tempFolder, safeName);
 
             // Crear carpeta temp si no existe
             if (!fs.existsSync(tempFolder)) {
